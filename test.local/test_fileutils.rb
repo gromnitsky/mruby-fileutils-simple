@@ -36,6 +36,7 @@ class TestFileUtilsSimple < $testunit_class
          :pwd,
          :cd,
          :touch,
+         :install,
         ]
     assert_equal m.sort, FileUtilsSimple.singleton_methods.sort
     assert_equal m.sort, FileUtilsSimple::DryRun.singleton_methods.sort
@@ -74,6 +75,20 @@ class TestFileUtilsSimple < $testunit_class
     FileUtilsSimple.touch "1.txt", "2.txt"
     assert_equal true, File.exist?("1.txt")
     assert_equal true, File.exist?("2.txt")
+  end
+
+  def test_install
+    FileUtilsSimple.touch "1.txt"
+    FileUtilsSimple.install "1.txt", "1/2/3/"
+    assert_equal true, File.exist?("1/2/3/1.txt")
+#    system "ls -la 1/2/3"
+
+    FileUtilsSimple.install "1.txt", "1/2/1.txt", 644
+    assert_equal true, File.exist?("1/2/1.txt")
+
+    FileUtilsSimple.install "1.txt", "2.txt", 644
+    assert_equal true, File.exist?("2.txt")
+#    system "ls -la"
   end
 
 end

@@ -21,6 +21,12 @@ module FileUtilsSimple
       end
     end
 
+    def self.install src, dest, mode = 755
+      dir = dest[-1] == '/' ? dest : File.dirname(dest)
+      system "mkdir -p #{dir}"
+      system "install -p -m #{mode} #{src} #{dest}"
+    end
+
   end
 
   module Delegator
