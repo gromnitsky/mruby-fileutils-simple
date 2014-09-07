@@ -52,11 +52,28 @@ class TestFileUtilsSimple < $testunit_class
     assert_equal "pwd ", FileUtilsSimple::Delegator.stdout.log.pop
   end
 
+  def test_pwd_invalid_params
+    assert_raises ArgumentError do
+      FileUtilsSimple.pwd 1
+    end
+  end
+
   def test_cd
     FileUtilsSimple.cd '/' do
       assert_equal '/', Dir.pwd
     end
     assert_equal __dir__, File.dirname(Dir.pwd)
+  end
+
+  def test_touch
+    FileUtilsSimple.touch "1.txt", "2.txt", verbose: true, noop: true
+    assert_equal "touch 1.txt, 2.txt", FileUtilsSimple::Delegator.stdout.log.pop
+    assert_equal false, File.exist?("1.txt")
+    assert_equal false, File.exist?("2.txt")
+
+    FileUtilsSimple.touch "1.txt", "2.txt"
+    assert_equal true, File.exist?("1.txt")
+    assert_equal true, File.exist?("2.txt")
   end
 
 end

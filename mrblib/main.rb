@@ -7,10 +7,6 @@ module FileUtilsSimple
                    :cd,
                   ]
 
-    # def self.pwd3 a, b, c
-    #   Dir.pwd
-    # end
-
     def self.pwd
       Dir.pwd
     end
