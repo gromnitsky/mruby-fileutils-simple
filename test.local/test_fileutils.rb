@@ -42,6 +42,17 @@ class TestFileUtilsSimple < $testunit_class
          :rmdir,
          :rm_rf,
          :rm_r,
+         :ln,
+         :ln_f,
+         :ln_s,
+         :ln_sf,
+         :cp,
+         :cp_r,
+         :mv,
+         :chmod,
+         :chmod_R,
+         :chown,
+         :chown_R
         ]
     assert_equal m.sort, FileUtilsSimple.singleton_methods.sort
     assert_equal m.sort, FileUtilsSimple::DryRun.singleton_methods.sort
@@ -123,6 +134,41 @@ class TestFileUtilsSimple < $testunit_class
     FileUtilsSimple.rm_rf "foo bar"
     assert_equal false, File.directory?("foo bar")
     assert_equal true, File.directory?("bar")
+  end
+
+  def test_ln
+    FileUtilsSimple.touch "1.txt"
+    FileUtilsSimple.ln "1.txt", "2.txt"
+    assert_equal true, File.exist?("2.txt")
+
+    FileUtilsSimple.touch "3.txt"
+    FileUtilsSimple.ln_s "3.txt", "4.txt"
+    assert_equal true, File.symlink?("4.txt")
+  end
+
+  def test_cp
+    FileUtilsSimple.touch "1.txt"
+    FileUtilsSimple.cp "1.txt", "2.txt"
+    assert_equal true, File.exist?("2.txt")
+  end
+
+  def test_mv
+    FileUtilsSimple.touch "1.txt"
+    FileUtilsSimple.mv "1.txt", "2.txt"
+    assert_equal false, File.exist?("1.txt")
+    assert_equal true, File.exist?("2.txt")
+  end
+
+  def test_chmod
+    FileUtilsSimple.touch "1.txt"
+    FileUtilsSimple.chmod 777, "1.txt"
+    assert_equal '777', `stat -c %a 1.txt`.strip
+  end
+
+  def test_chown
+    FileUtilsSimple.touch "1.txt"
+    # must not print a warning
+    FileUtilsSimple.chown ENV['USER'], '', "1.txt"
   end
 
 end

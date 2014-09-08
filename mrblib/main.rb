@@ -28,7 +28,6 @@ module FileUtilsSimple
     def self.mkdir *list
       system "mkdir -p #{list.join ' '}"
     end
-
     singleton_class.send(:alias_method, :mkdir_p, :mkdir)
 
     def self.rmdir *list
@@ -38,8 +37,42 @@ module FileUtilsSimple
     def self.rm_rf *list
       system "rm -rf #{list.join ' '}"
     end
-
     singleton_class.send(:alias_method, :rm_r, :rm_rf)
+
+    def self.ln_f *src, dest
+      system "ln -f #{src.join ' '} #{dest}"
+    end
+    singleton_class.send(:alias_method, :ln, :ln_f)
+
+    def self.ln_sf *src, dest
+      system "ln -fs #{src.join ' '} #{dest}"
+    end
+    singleton_class.send(:alias_method, :ln_s, :ln_sf)
+
+    def self.cp_r *src, dest
+      system "cp -rp #{src.join ' '} #{dest}"
+    end
+    singleton_class.send(:alias_method, :cp, :cp_r)
+
+    def self.mv *src, dest
+      system "mv #{src.join ' '} #{dest}"
+    end
+
+    def self.chmod mode, *list
+      system "chmod #{mode} #{list.join ' '}"
+    end
+
+    def self.chmod_R mode, *list
+      system "chmod -R #{mode} #{list.join ' '}"
+    end
+
+    def self.chown user, group, *list
+      system "chown #{user}:#{group} #{list.join ' '}"
+    end
+
+    def self.chown_R user, group, *list
+      system "chown -R #{user}:#{group} #{list.join ' '}"
+    end
 
   end
 
