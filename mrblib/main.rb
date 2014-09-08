@@ -1,7 +1,7 @@
 module FileUtilsSimple
 
   module Commands
-    # Those are non-destructive & can be run always.
+    # Those are non-destructive & can run always.
     NOOP_IGNORE = [
                    :pwd,
                    :cd,
@@ -121,6 +121,38 @@ module FileUtilsSimple
         define_method(name) do |*args, &block|
           opt = {
             verbose: true,
+            noop: true,
+          }
+          FileUtilsSimple::Delegator.wrap(opt, name, *args, &block)
+        end
+
+        module_function name
+      end
+    end
+  end
+
+  module Verbose
+    FileUtilsSimple::Commands.methods(false).each do |name|
+      module_eval do
+        define_method(name) do |*args, &block|
+          opt = {
+            verbose: true,
+            noop: false,
+          }
+          FileUtilsSimple::Delegator.wrap(opt, name, *args, &block)
+        end
+
+        module_function name
+      end
+    end
+  end
+
+  module NoWrite
+    FileUtilsSimple::Commands.methods(false).each do |name|
+      module_eval do
+        define_method(name) do |*args, &block|
+          opt = {
+            verbose: false,
             noop: true,
           }
           FileUtilsSimple::Delegator.wrap(opt, name, *args, &block)
