@@ -83,12 +83,12 @@ class TestFileUtilsSimple < $testunit_class
   end
 
   def test_touch
-    FileUtilsSimple.touch "1.txt", "2.txt", verbose: true, noop: true
-    assert_equal "touch 1.txt, 2.txt", FileUtilsSimple::Delegator.stdout.log.pop
-    assert_equal false, File.exist?("1.txt")
+    FileUtilsSimple.touch ["1 txt", "2.txt"], verbose: true, noop: true
+    assert_equal "touch 1 txt, 2.txt", FileUtilsSimple::Delegator.stdout.log.pop
+    assert_equal false, File.exist?("1 txt")
     assert_equal false, File.exist?("2.txt")
 
-    FileUtilsSimple.touch "1.txt", "2.txt"
+    FileUtilsSimple.touch ["1.txt", "2.txt"]
     assert_equal true, File.exist?("1.txt")
     assert_equal true, File.exist?("2.txt")
   end
@@ -108,7 +108,7 @@ class TestFileUtilsSimple < $testunit_class
   end
 
   def test_mkdir
-    FileUtilsSimple.mkdir "1/2/3", "4"
+    FileUtilsSimple.mkdir ["1/2/3", "4"]
     assert_equal true, File.directory?("1/2/3")
     assert_equal true, File.directory?("4")
 
@@ -117,17 +117,17 @@ class TestFileUtilsSimple < $testunit_class
   end
 
   def test_rmdir
-    FileUtilsSimple.mkdir "foo bar", "baz"
+    FileUtilsSimple.mkdir ["foo bar", "baz"]
     assert_equal true, File.directory?("foo bar")
     assert_equal true, File.directory?("baz")
 
-    FileUtilsSimple.rmdir "foo bar", "baz"
+    FileUtilsSimple.rmdir ["foo bar", "baz"]
     assert_equal false, File.directory?("foo bar")
     assert_equal false, File.directory?("baz")
   end
 
   def test_rm_rf
-    FileUtilsSimple.mkdir "foo bar", "bar"
+    FileUtilsSimple.mkdir ["foo bar", "bar"]
     FileUtilsSimple.touch "foo bar/1.txt"
     assert_equal true, File.exist?("foo bar/1.txt")
 

@@ -15,62 +15,86 @@ module FileUtilsSimple
       Dir.chdir dir, &block
     end
 
-    def self.touch *list
+    def self.touch list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "touch #{list.join ' '}"
     end
 
     def self.install src, dest, mode = 755
       dir = dest[-1] == '/' ? dest : File.dirname(dest)
       system "mkdir -p #{dir}"
-      system "install -p -m #{mode} #{src} #{dest}"
+      system "install -p -m #{mode} #{src.shellescape} #{dest.shellescape}"
     end
 
-    def self.mkdir *list
+    def self.mkdir list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "mkdir -p #{list.join ' '}"
     end
     singleton_class.send(:alias_method, :mkdir_p, :mkdir)
 
-    def self.rmdir *list
+    def self.rmdir list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "rmdir #{list.join ' '}"
     end
 
-    def self.rm_rf *list
+    def self.rm_rf list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "rm -rf #{list.join ' '}"
     end
     singleton_class.send(:alias_method, :rm_r, :rm_rf)
 
-    def self.ln_f *src, dest
-      system "ln -f #{src.join ' '} #{dest}"
+    def self.ln_f src, dest
+      src = [src] unless src.is_a? Array
+      src.map!(&:shellescape)
+      system "ln -f #{src.join ' '} #{dest.shellescape}"
     end
     singleton_class.send(:alias_method, :ln, :ln_f)
 
-    def self.ln_sf *src, dest
-      system "ln -fs #{src.join ' '} #{dest}"
+    def self.ln_sf src, dest
+      src = [src] unless src.is_a? Array
+      src.map!(&:shellescape)
+      system "ln -sf #{src.join ' '} #{dest.shellescape}"
     end
     singleton_class.send(:alias_method, :ln_s, :ln_sf)
 
-    def self.cp_r *src, dest
-      system "cp -rp #{src.join ' '} #{dest}"
+    def self.cp_r src, dest
+      src = [src] unless src.is_a? Array
+      src.map!(&:shellescape)
+      system "cp -rp #{src.join ' '} #{dest.shellescape}"
     end
     singleton_class.send(:alias_method, :cp, :cp_r)
 
-    def self.mv *src, dest
-      system "mv #{src.join ' '} #{dest}"
+    def self.mv src, dest
+      src = [src] unless src.is_a? Array
+      src.map!(&:shellescape)
+      system "mv #{src.join ' '} #{dest.shellescape}"
     end
 
-    def self.chmod mode, *list
+    def self.chmod mode, list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "chmod #{mode} #{list.join ' '}"
     end
 
-    def self.chmod_R mode, *list
+    def self.chmod_R mode, list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "chmod -R #{mode} #{list.join ' '}"
     end
 
-    def self.chown user, group, *list
+    def self.chown user, group, list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "chown #{user}:#{group} #{list.join ' '}"
     end
 
-    def self.chown_R user, group, *list
+    def self.chown_R user, group, list
+      list = [list] unless list.is_a? Array
+      list.map!(&:shellescape)
       system "chown -R #{user}:#{group} #{list.join ' '}"
     end
 
@@ -87,7 +111,6 @@ module FileUtilsSimple
         args = args[0..-2]
       end
 
-      args.map! {|idx| idx.to_s.shellescape }
       Delegator.stdout.puts "#{name} #{args.join ', '}" if opt[:verbose]
       return if opt[:noop] && !Commands::NOOP_IGNORE.index(name)
 
