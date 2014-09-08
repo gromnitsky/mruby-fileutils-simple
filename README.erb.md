@@ -1,9 +1,11 @@
 # FileUtilsSimple
 
-A cut down version of FileUtils
-(<%= File.size('../mrblib/main.rb')/1024 %>KB vs. 47KB) for mruby.
+A stripped down version of FileUtils (<%=
+File.size('../mrblib/main.rb')/1024 %>KB vs. 47KB). It delegates all
+hard work to system tools.
 
-The primary use of this mrbgem is minirake.
+The primary use of this mrbgem is
+[minirake](https://github.com/gromnitsky/minirake).
 
 Commands are accessible through `FileUtilsSimple` module. For example:
 
@@ -25,7 +27,7 @@ versions via `FileUtilsSimple` module, like `FileUtilsSimple.mkdir`.)
 
 ## BUGS
 
-* Once `FileUtilsSimple::DryRun` is imported, additional options for
+* Once `FileUtilsSimple::DryRun` is included, additional options for
   commands are ignored.
 
 ## License
