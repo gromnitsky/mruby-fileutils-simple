@@ -1,7 +1,7 @@
 # FileUtilsSimple
 
 A cut down version of FileUtils
-(3KB vs. 47KB) for mruby.
+(<%= File.size('../mrblib/main.rb')/1024 %>KB vs. 47KB) for mruby.
 
 The primary use of this mrbgem is minirake.
 
@@ -20,27 +20,7 @@ versions via `FileUtilsSimple` module, like `FileUtilsSimple.mkdir`.)
 ## User Commands
 
 ```
-cd(dir, &block)
-chmod(mode, *list)
-chmod_R(mode, *list)
-chown(user, group, *list)
-chown_R(user, group, *list)
-cp(*src, dest)
-cp_r(*src, dest)
-install(src, dest, [mode])
-ln(*src, dest)
-ln_f(*src, dest)
-ln_s(*src, dest)
-ln_sf(*src, dest)
-mkdir(*list)
-mkdir_p(*list)
-mv(*src, dest)
-pwd()
-rm_r(*list)
-rm_rf(*list)
-rmdir(*list)
-touch(*list)
-
+<%= `./extract-user-commands` %>
 ```
 
 ## BUGS

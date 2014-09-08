@@ -1,0 +1,12 @@
+readme_target = "../README.md"
+readme_src = "../README.erb.md"
+
+task :default => readme_target
+
+file readme_target => [readme_src, "../mrblib/main.rb"] do |t|
+  sh "erb #{t.prerequisites[0]} > #{t.name}"
+end
+
+task :clean do
+  FileUtils.rm_f readme_target, verbose: true
+end
