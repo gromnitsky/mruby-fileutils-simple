@@ -1,4 +1,4 @@
-MRuby::Gem::Specification.new('mruby-dir-glob') do |spec|
+MRuby::Gem::Specification.new('mruby-fileutils-simple') do |spec|
   spec.license = 'MIT'
   spec.author  = 'Alexander Gromnitsky'
   spec.version = '0.0.1'
