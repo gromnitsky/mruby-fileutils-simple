@@ -16,9 +16,7 @@ module FileUtilsSimple
     end
 
     def self.touch *list
-      list.each do |file|
-        system "touch #{file}"
-      end
+      system "touch #{list.join ' '}"
     end
 
     def self.install src, dest, mode = 755
@@ -26,6 +24,22 @@ module FileUtilsSimple
       system "mkdir -p #{dir}"
       system "install -p -m #{mode} #{src} #{dest}"
     end
+
+    def self.mkdir *list
+      system "mkdir -p #{list.join ' '}"
+    end
+
+    singleton_class.send(:alias_method, :mkdir_p, :mkdir)
+
+    def self.rmdir *list
+      system "rmdir #{list.join ' '}"
+    end
+
+    def self.rm_rf *list
+      system "rm -rf #{list.join ' '}"
+    end
+
+    singleton_class.send(:alias_method, :rm_r, :rm_rf)
 
   end
 

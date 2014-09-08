@@ -37,6 +37,11 @@ class TestFileUtilsSimple < $testunit_class
          :cd,
          :touch,
          :install,
+         :mkdir,
+         :mkdir_p,
+         :rmdir,
+         :rm_rf,
+         :rm_r,
         ]
     assert_equal m.sort, FileUtilsSimple.singleton_methods.sort
     assert_equal m.sort, FileUtilsSimple::DryRun.singleton_methods.sort
@@ -89,6 +94,35 @@ class TestFileUtilsSimple < $testunit_class
     FileUtilsSimple.install "1.txt", "2.txt", 644
     assert_equal true, File.exist?("2.txt")
 #    system "ls -la"
+  end
+
+  def test_mkdir
+    FileUtilsSimple.mkdir "1/2/3", "4"
+    assert_equal true, File.directory?("1/2/3")
+    assert_equal true, File.directory?("4")
+
+    FileUtilsSimple.mkdir "5"
+    assert_equal true, File.directory?("5")
+  end
+
+  def test_rmdir
+    FileUtilsSimple.mkdir "foo bar", "baz"
+    assert_equal true, File.directory?("foo bar")
+    assert_equal true, File.directory?("baz")
+
+    FileUtilsSimple.rmdir "foo bar", "baz"
+    assert_equal false, File.directory?("foo bar")
+    assert_equal false, File.directory?("baz")
+  end
+
+  def test_rm_rf
+    FileUtilsSimple.mkdir "foo bar", "bar"
+    FileUtilsSimple.touch "foo bar/1.txt"
+    assert_equal true, File.exist?("foo bar/1.txt")
+
+    FileUtilsSimple.rm_rf "foo bar"
+    assert_equal false, File.directory?("foo bar")
+    assert_equal true, File.directory?("bar")
   end
 
 end
