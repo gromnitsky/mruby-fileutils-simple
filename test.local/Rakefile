@@ -8,5 +8,9 @@ file readme_target => [readme_src, "../mrblib/main.rb"] do |t|
 end
 
 task :clean do
-  FileUtils.rm_f readme_target, verbose: true
+  rm_rf readme_target, verbose: true
+end
+
+task :test do
+  sh "mruby test_fileutils.rb"
 end
