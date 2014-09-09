@@ -45,7 +45,7 @@ module FileUtilsSimple
       list.map!(&:shellescape)
       system "rm -rf #{list.join ' '}"
     end
-    singleton_class.send(:alias_method, :rm_r, :rm_rf)
+    singleton_class.send(:alias_method, :rm_r, :rm)
     singleton_class.send(:alias_method, :rm_rf, :rm)
 
     def self.ln_f src, dest
