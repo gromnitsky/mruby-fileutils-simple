@@ -40,12 +40,13 @@ module FileUtilsSimple
       system "rmdir #{list.join ' '}"
     end
 
-    def self.rm_rf list
+    def self.rm list
       list = [list] unless list.is_a? Array
       list.map!(&:shellescape)
       system "rm -rf #{list.join ' '}"
     end
     singleton_class.send(:alias_method, :rm_r, :rm_rf)
+    singleton_class.send(:alias_method, :rm_rf, :rm)
 
     def self.ln_f src, dest
       src = [src] unless src.is_a? Array

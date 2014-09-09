@@ -42,6 +42,7 @@ class TestFileUtilsSimple < $testunit_class
          :rmdir,
          :rm_rf,
          :rm_r,
+         :rm,
          :ln,
          :ln_f,
          :ln_s,
